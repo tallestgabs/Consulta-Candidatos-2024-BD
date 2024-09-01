@@ -2,6 +2,9 @@
 
 ### Estrutura da Tabela
 - Alterar para as tabelas do MER
+
+![MER](https://github.com/user-attachments/assets/555ced09-f2e8-4c90-81b6-d0fe8d0b3f51)
+
 ``` sql
 CREATE TABLE IF NOT EXISTS dados_eleitorais (
     DT_GERACAO VARCHAR(12),                  -- Data de geração
@@ -62,3 +65,6 @@ CREATE TABLE IF NOT EXISTS dados_eleitorais (
 ``` bash
 \copy dados_eleitorais FROM 'C:\Users\Gabriel\Downloads\consulta_cand_2024_SP.csv' WITH (FORMAT csv, HEADER, DELIMITER ';');
 ```
+
+
+
