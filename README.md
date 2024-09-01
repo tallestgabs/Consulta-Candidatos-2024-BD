@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS dados_eleitorais (
     NM_COLIGACAO VARCHAR(100),               -- Nome da coligação
     DS_COMPOSICAO_COLIGACAO TEXT,            -- Descrição da composição da coligação
     SG_UF_NASCIMENTO VARCHAR(2),             -- Sigla da UF de nascimento
-    DT_NASCIMENTO VARCHAR(12),                  -- Data de nascimento
+    DT_NASCIMENTO DATE,                      -- Data de nascimento
     NR_TITULO_ELEITORAL_CANDIDATO VARCHAR(15),  -- Número do título de eleitor do candidato
     CD_GENERO VARCHAR(2),                       -- Código do gênero
     DS_GENERO VARCHAR(25),                   -- Descrição do gênero
@@ -60,7 +60,58 @@ CREATE TABLE IF NOT EXISTS dados_eleitorais (
 
 );
 ```
+### Tabelas Separadas
+- Faltam Foreign Keys
 
+``` sql
+CREATE TABLE IF NOT EXISTS eleicao (
+	CD_ELEICAO VARCHAR(5) PRIMARY KEY, 
+	DS_ELEICAO VARCHAR(100),
+	DT_ELEICAO DATE,
+	TP_ABRANGENCIA_ELEICAO VARCHAR(50),
+	ANO_ELEICAO VARCHAR(5),
+	CD_TIPO_ELEICAO VARCHAR(5),
+	NM_TIPO_ELEICAO VARCHAR(50),
+	NR_TURNO VARCHAR(2)
+);
+CREATE TABLE IF NOT EXISTS cargo (
+	DS_CARGO VARCHAR(100)
+);
+CREATE TABLE IF NOT EXISTS unidade_eleitoral (
+	SG_UE VARCHAR(7),
+	NM_UE VARCHAR(40),
+	SG_UF VARCHAR(2)
+);
+CREATE TABLE IF NOT EXISTS partido (
+	NR_PARTIDO VARCHAR(3) PRIMARY KEY,
+	SG_PARTIDO VARCHAR(30),
+	NM_PARTIDO VARCHAR(100)
+);
+CREATE TABLE IF NOT EXISTS candidato (
+	SQ_CANDIDATO VARCHAR(20) PRIMARY KEY,
+	NM_CANDIDATO VARCHAR(100),
+	DT_NASCIMENTO DATE,
+	NR_TITULO_ELEITORAL_CANDIDATO VARCHAR(15),
+	NM_URNA_CANDIDATO VARCHAR(100),
+	NR_CANDIDATO VARCHAR(10),
+	CD_SITUACAO_CANDIDATURA VARCHAR(4)
+);
+CREATE TABLE IF NOT EXISTS ocupacao (
+	DS_OCUPACAO VARCHAR(100)
+);
+CREATE TABLE IF NOT EXISTS cor_raca (
+	DS_COR_RACA VARCHAR(25)
+);
+CREATE TABLE IF NOT EXISTS estado_civil (
+	DS_ESTADO_CIVIL VARCHAR(25)
+);
+CREATE TABLE IF NOT EXISTS genero (
+	DS_GENERO VARCHAR(25)
+);
+CREATE TABLE IF NOT EXISTS grau_instrucao (
+	DS_GRAU_INSTRUCAO VARCHAR(50)
+);
+```
 ### Entrar no diretorio do PostgreSQL/bin e entrar com psql -U user -d database -h localhost
 ``` bash
 \copy dados_eleitorais FROM 'C:\Users\Gabriel\Downloads\consulta_cand_2024_SP.csv' WITH (FORMAT csv, HEADER, DELIMITER ';');
