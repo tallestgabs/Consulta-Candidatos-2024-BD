@@ -2,6 +2,8 @@
   background: url('../assets/images/image_1.png') 50% / cover no-repeat;
   width: 252px;
   height: 207px;
+  justify-content: center; /* Add this line */
+  display: flex;
 }
 .desktop .image-placeholder {
   margin-bottom: 23px;
@@ -74,6 +76,8 @@
   margin-bottom: 16px;
   display: flex;
   box-sizing: border-box;
+  flex-direction: column;
+  align-items: center;
 }
 .desktop .get-started {
   margin-right: 4.5px;
@@ -155,7 +159,7 @@
   width: 453px;
   box-sizing: border-box;
 }
-.desktop .caso-queira-refina-as-caractersticas-do-candidato-que-voc-procura {
+.desktop .frase {
   overflow-wrap: break-word;
   font-family: var(--text-16-px-semibold-font-family, 'Inter');
   font-weight: var(--text-16-px-semibold-font-weight, 600);
@@ -1069,7 +1073,7 @@
   line-height: 1.55;
   color: #282828;
 }
-.desktop .cic-0097-bancos-de-dados-t-01-departamento-de-cincia-da-computao-universidade-de-braslia {
+.desktop .texto-opaco {
   margin: 0 1.7px;
   text-align: center;
   overflow-wrap: break-word;
