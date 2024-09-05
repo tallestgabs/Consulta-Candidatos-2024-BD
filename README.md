@@ -1,9 +1,8 @@
 # Consulta-Candidatos-2024-BD
 
 ### Estrutura da Tabela
-- Alterar para as tabelas do MER
+![image](https://github.com/user-attachments/assets/37106aeb-acff-4f5a-90f1-bc5db4ee6f45)
 
-![MER](https://github.com/user-attachments/assets/555ced09-f2e8-4c90-81b6-d0fe8d0b3f51)
 
 ``` sql
 CREATE TABLE IF NOT EXISTS dados_eleitorais (
@@ -61,55 +60,95 @@ CREATE TABLE IF NOT EXISTS dados_eleitorais (
 );
 ```
 ### Tabelas Separadas
-- Faltam Foreign Keys
+1. Eleição
+2. Unidade Eleitoral
+3. Candidato
+4. Email
+5. Telefone
+6. Ocupação
+7. Ocupação_Candidato
+8. Partido
+9. Federação
+10. Coligação
 
 ``` sql
-CREATE TABLE IF NOT EXISTS eleicao (
-	CD_ELEICAO VARCHAR(5) PRIMARY KEY, 
-	DS_ELEICAO VARCHAR(100),
-	DT_ELEICAO DATE,
-	TP_ABRANGENCIA_ELEICAO VARCHAR(50),
-	ANO_ELEICAO VARCHAR(5),
-	CD_TIPO_ELEICAO VARCHAR(5),
-	NM_TIPO_ELEICAO VARCHAR(50),
-	NR_TURNO VARCHAR(2)
-);
-CREATE TABLE IF NOT EXISTS cargo (
-	DS_CARGO VARCHAR(100)
+CREATE TABLE IF NOT EXISTS eleicao(
+	cd_eleicao VARCHAR(5) PRIMARY KEY, 
+	ds_eleicao VARCHAR(100),
+	dt_eleicao DATE,
+	tp_abrangencia_eleicao VARCHAR(50),
+	ano_eleicao VARCHAR(5),
+	cd_tipo_eleicao VARCHAR(5),
+	nm_tipo_eleicao VARCHAR(50),
+	nr_turno VARCHAR(2)
 );
 CREATE TABLE IF NOT EXISTS unidade_eleitoral (
-	SG_UE VARCHAR(7),
-	NM_UE VARCHAR(40),
-	SG_UF VARCHAR(2)
+	cd_eleicao VARCHAR(5),
+	sq_ue VARCHAR(7) PRIMARY KEY,
+	nm_ue VARCHAR(40),
+	sg_uf VARCHAR(2),
+	FOREIGN KEY (cd_eleicao) REFERENCES eleicao(cd_eleicao)
+);
+CREATE TABLE IF NOT EXISTS federacao (
+	nr_federacao VARCHAR(7) PRIMARY KEY,  
+	nm_federacao VARCHAR(100),      
+	sg_federacao VARCHAR(20),        
+	ds_composicao_federacao TEXT
+);
+
+CREATE TABLE IF NOT EXISTS coligacao (
+	sq_coligacao VARCHAR(20) PRIMARY KEY,          
+	nm_coligacao VARCHAR(100),              
+	ds_composicao_coligacao TEXT
 );
 CREATE TABLE IF NOT EXISTS partido (
-	NR_PARTIDO VARCHAR(3) PRIMARY KEY,
-	SG_PARTIDO VARCHAR(30),
-	NM_PARTIDO VARCHAR(100)
+	nr_federacao VARCHAR(7),
+	sq_coligacao VARCHAR(20),
+	nr_partido VARCHAR(3) PRIMARY KEY,
+	sg_partido VARCHAR(30),
+	nm_partido VARCHAR(100),
+	FOREIGN KEY (nr_federacao) REFERENCES federacao(nr_federacao),
+	FOREIGN KEY (sq_coligacao) REFERENCES coligacao(sq_coligacao)
 );
+
 CREATE TABLE IF NOT EXISTS candidato (
-	SQ_CANDIDATO VARCHAR(20) PRIMARY KEY,
-	NM_CANDIDATO VARCHAR(100),
-	DT_NASCIMENTO DATE,
-	NR_TITULO_ELEITORAL_CANDIDATO VARCHAR(15),
-	NM_URNA_CANDIDATO VARCHAR(100),
-	NR_CANDIDATO VARCHAR(10),
-	CD_SITUACAO_CANDIDATURA VARCHAR(4)
+	cd_eleicao VARCHAR(5),
+	nr_partido VARCHAR(3),
+	sq_candidato VARCHAR(20) PRIMARY KEY,
+	nm_candidato VARCHAR(100),
+	ds_genero VARCHAR(25),
+	ds_cor_raca VARCHAR(20),
+	dt_nascimento DATE,
+	nr_titulo_eleitoral_candidato VARCHAR(15),
+	nm_urna_candidato VARCHAR(100),
+	nr_candidato VARCHAR(10),
+	ds_estado_civil VARCHAR(25),
+	cd_situacao_candidatura VARCHAR(4),
+	ds_grau_instrucao VARCHAR(50),
+	FOREIGN KEY (cd_eleicao) REFERENCES eleicao(cd_eleicao),
+	FOREIGN KEY (nr_partido) REFERENCES partido(nr_partido)
 );
-CREATE TABLE IF NOT EXISTS ocupacao (
-	DS_OCUPACAO VARCHAR(100)
+
+CREATE TABLE IF NOT EXISTS telefone(
+	sq_candidato VARCHAR(20),
+	numero VARCHAR(15),
+	FOREIGN KEY (sq_candidato) REFERENCES candidato(sq_candidato)
 );
-CREATE TABLE IF NOT EXISTS cor_raca (
-	DS_COR_RACA VARCHAR(25)
+CREATE TABLE IF NOT EXISTS email(
+	sq_candidato VARCHAR(20),
+	ds_email VARCHAR(50),
+	FOREIGN KEY (sq_candidato) REFERENCES candidato(sq_candidato)
 );
-CREATE TABLE IF NOT EXISTS estado_civil (
-	DS_ESTADO_CIVIL VARCHAR(25)
+CREATE TABLE IF NOT EXISTS ocupacao(
+	cd_ocupacao VARCHAR(10) PRIMARY KEY,
+	ds_ocupacao VARCHAR(255)
 );
-CREATE TABLE IF NOT EXISTS genero (
-	DS_GENERO VARCHAR(25)
-);
-CREATE TABLE IF NOT EXISTS grau_instrucao (
-	DS_GRAU_INSTRUCAO VARCHAR(50)
+CREATE TABLE IF NOT EXISTS ocupacao_candidato(
+	sq_candidato VARCHAR(20),
+	cd_ocupacao VARCHAR(255),
+	PRIMARY KEY (sq_candidato, cd_ocupacao),
+	FOREIGN KEY (sq_candidato) REFERENCES candidato(sq_candidato),
+	FOREIGN KEY (cd_ocupacao) REFERENCES ocupacao(cd_ocupacao)
 );
 ```
 ### Entrar no diretorio do PostgreSQL/bin e entrar com psql -U user -d database -h localhost
