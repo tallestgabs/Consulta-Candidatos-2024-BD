@@ -92,7 +92,7 @@ telefone TEXT                            -- Exemplos de Telefones
 CREATE TABLE IF NOT EXISTS eleicao(
 	cd_eleicao VARCHAR(5) PRIMARY KEY, 
 	ds_eleicao VARCHAR(100),
-        ds_cargo VARCHAR(100)
+        ds_cargo VARCHAR(100),
 	dt_eleicao VARCHAR(12),
 	tp_abrangencia_eleicao VARCHAR(50),
 	ano_eleicao VARCHAR(5),
