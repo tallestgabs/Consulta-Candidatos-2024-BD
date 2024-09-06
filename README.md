@@ -172,7 +172,7 @@ CREATE TABLE IF NOT EXISTS ocupacao_candidato(
 # Criamos as nossas TABLES separadas e temos uma TABLE geral contendo as informações do csv. Agora vamos transferir o conteudo da nossa TABLE "Geral" para as Separadas
 ``` sql
 INSERT INTO eleicao (cd_eleicao, ds_eleicao, ds_cargo, dt_eleicao, tp_abrangencia_eleicao, ano_eleicao, cd_tipo_eleicao, nm_tipo_eleicao, nr_turno)
-SELECT cd_eleicao, ds_eleicao, dt_eleicao, tp_abrangencia_eleicao, ano_eleicao, cd_tipo_eleicao, nm_tipo_eleicao, nr_turno
+SELECT cd_eleicao, ds_eleicao, ds_cargo, dt_eleicao, tp_abrangencia_eleicao, ano_eleicao, cd_tipo_eleicao, nm_tipo_eleicao, nr_turno
 FROM dados_eleitorais
 ON CONFLICT DO NOTHING;
 
