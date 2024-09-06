@@ -56,7 +56,8 @@ CREATE TABLE IF NOT EXISTS dados_eleitorais (
     DS_OCUPACAO VARCHAR(100),                -- Descrição da ocupação
     CD_SIT_TOT_TURNO VARCHAR(8),             -- Código da situação do turno
     DS_SIT_TOT_TURNO VARCHAR(100)            -- Descrição da situação do turno
-
+    emails VARCHAR(50)                       -- Exemplos de Emails
+    telefones VARCHAR(15)                    -- Exemplos de Telefones
 );
 ```
 ### Tabelas Separadas
@@ -153,7 +154,7 @@ CREATE TABLE IF NOT EXISTS ocupacao_candidato(
 ```
 ### Entrar no diretorio do PostgreSQL/bin e entrar com psql -U user -d database -h localhost
 ``` bash
-\copy dados_eleitorais FROM 'C:\Users\Gabriel\Downloads\consulta_cand_2024_SP.csv' WITH (FORMAT csv, HEADER, DELIMITER ';');
+\copy dados_eleitorais FROM 'PATH csv' WITH (FORMAT csv, HEADER, DELIMITER ';');
 ```
 
 
