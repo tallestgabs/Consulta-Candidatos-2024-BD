@@ -134,12 +134,12 @@ CREATE TABLE IF NOT EXISTS candidato (
 
 CREATE TABLE IF NOT EXISTS telefone(
 	sq_candidato VARCHAR(20),
-	numero VARCHAR(15),
+	telefones VARCHAR(15),
 	FOREIGN KEY (sq_candidato) REFERENCES candidato(sq_candidato)
 );
 CREATE TABLE IF NOT EXISTS email(
 	sq_candidato VARCHAR(20),
-	ds_email VARCHAR(50),
+	emails VARCHAR(50),
 	FOREIGN KEY (sq_candidato) REFERENCES candidato(sq_candidato)
 );
 CREATE TABLE IF NOT EXISTS ocupacao(
