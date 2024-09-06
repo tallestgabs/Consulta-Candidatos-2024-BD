@@ -28,14 +28,14 @@
 
 CREATE TABLE IF NOT EXISTS dados_eleitorais (
 DT_GERACAO VARCHAR(12),                  -- Data de geração
-HH_GERACAO TIME,                         -- Hora de geração
+HH_GERACAO varchar(12),                  -- Hora de geração
 ANO_ELEICAO VARCHAR(5),                  -- Ano da eleição
 CD_TIPO_ELEICAO VARCHAR(5),              -- Código do tipo de eleição
 NM_TIPO_ELEICAO VARCHAR(50),             -- Nome do tipo de eleição
 NR_TURNO VARCHAR(2),                     -- Número do turno
 CD_ELEICAO VARCHAR(5),                   -- Código da eleição
 DS_ELEICAO VARCHAR(100),                 -- Descrição da eleição
-DT_ELEICAO DATE,                         -- Data da eleição
+DT_ELEICAO VARCHAR(12),                  -- Data da eleição
 TP_ABRANGENCIA_ELEICAO VARCHAR(50),      -- Tipo de abrangência da eleição
 SG_UF VARCHAR(2),                        -- Sigla da Unidade Federativa
 SQ_UE VARCHAR(7),                        -- Sigla da Unidade Eleitoral
@@ -57,13 +57,13 @@ SG_PARTIDO VARCHAR(30),                  -- Sigla do partido
 NM_PARTIDO VARCHAR(100),                 -- Nome do partido
 NR_FEDERACAO VARCHAR(7),                 -- Número da federação
 NM_FEDERACAO VARCHAR(100),               -- Nome da federação
-SG_FEDERACAO VARCHAR(20),                 -- Sigla da federação
+SG_FEDERACAO VARCHAR(20),                -- Sigla da federação
 DS_COMPOSICAO_FEDERACAO TEXT,            -- Descrição da composição da federação
 SQ_COLIGACAO VARCHAR(20),                -- Sequência da coligação
 NM_COLIGACAO VARCHAR(100),               -- Nome da coligação
 DS_COMPOSICAO_COLIGACAO TEXT,            -- Descrição da composição da coligação
 SG_UF_NASCIMENTO VARCHAR(2),             -- Sigla da UF de nascimento
-DT_NASCIMENTO DATE,                      -- Data de nascimento
+DT_NASCIMENTO VARCHAR(12),               -- Data de nascimento
 NR_TITULO_ELEITORAL_CANDIDATO VARCHAR(15),  -- Número do título de eleitor do candidato
 CD_GENERO VARCHAR(2),                       -- Código do gênero
 DS_GENERO VARCHAR(25),                   -- Descrição do gênero
@@ -77,8 +77,8 @@ CD_OCUPACAO VARCHAR(5),                  -- Código da ocupação
 DS_OCUPACAO VARCHAR(100),                -- Descrição da ocupação
 CD_SIT_TOT_TURNO VARCHAR(8),             -- Código da situação do turno
 DS_SIT_TOT_TURNO VARCHAR(100),           -- Descrição da situação do turno
-email TEXT,                             -- Exemplos de Emails
-telefone TEXT                           -- Exemplos de Telefones
+email TEXT,                              -- Exemplos de Emails
+telefone TEXT                            -- Exemplos de Telefones
 );
 ```
 ### Devemos ir no diretorio do PostgreSQL/bin e entrar com psql -U user -d database -h localhost pelo terminal
@@ -92,7 +92,8 @@ telefone TEXT                           -- Exemplos de Telefones
 CREATE TABLE IF NOT EXISTS eleicao(
 	cd_eleicao VARCHAR(5) PRIMARY KEY, 
 	ds_eleicao VARCHAR(100),
-	dt_eleicao DATE,
+        ds_cargo VARCHAR(100)
+	dt_eleicao VARCHAR(12),
 	tp_abrangencia_eleicao VARCHAR(50),
 	ano_eleicao VARCHAR(5),
 	cd_tipo_eleicao VARCHAR(5),
@@ -135,7 +136,7 @@ CREATE TABLE IF NOT EXISTS candidato (
 	nm_candidato VARCHAR(100),
 	ds_genero VARCHAR(25),
 	ds_cor_raca VARCHAR(20),
-	dt_nascimento DATE,
+	dt_nascimento VARCHAR(12),
 	nr_titulo_eleitoral_candidato VARCHAR(15),
 	nm_urna_candidato VARCHAR(100),
 	nr_candidato VARCHAR(10),
@@ -170,8 +171,8 @@ CREATE TABLE IF NOT EXISTS ocupacao_candidato(
 ```
 # Criamos as nossas TABLES separadas e temos uma TABLE geral contendo as informações do csv. Agora vamos transferir o conteudo da nossa TABLE "Geral" para as Separadas
 ``` sql
-INSERT INTO eleicao (CD_ELEICAO, DS_ELEICAO, DT_ELEICAO, TP_ABRANGENCIA_ELEICAO, ANO_ELEICAO, CD_TIPO_ELEICAO, NM_TIPO_ELEICAO, NR_TURNO)
-SELECT CD_ELEICAO, DS_ELEICAO, DT_ELEICAO, TP_ABRANGENCIA_ELEICAO, ANO_ELEICAO, CD_TIPO_ELEICAO, NM_TIPO_ELEICAO, NR_TURNO
+INSERT INTO eleicao (cd_eleicao, ds_eleicao, ds_cargo, dt_eleicao, tp_abrangencia_eleicao, ano_eleicao, cd_tipo_eleicao, nm_tipo_eleicao, nr_turno)
+SELECT cd_eleicao, ds_eleicao, dt_eleicao, tp_abrangencia_eleicao, ano_eleicao, cd_tipo_eleicao, nm_tipo_eleicao, nr_turno
 FROM dados_eleitorais
 ON CONFLICT DO NOTHING;
 
