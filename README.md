@@ -6,6 +6,7 @@
 
 ``` sql
 CREATE TABLE IF NOT EXISTS dados_eleitorais (
+    CREATE TABLE IF NOT EXISTS dados_eleitorais (
     DT_GERACAO VARCHAR(12),                  -- Data de geração
     HH_GERACAO TIME,                         -- Hora de geração
     ANO_ELEICAO VARCHAR(5),                  -- Ano da eleição
@@ -56,8 +57,9 @@ CREATE TABLE IF NOT EXISTS dados_eleitorais (
     DS_OCUPACAO VARCHAR(100),                -- Descrição da ocupação
     CD_SIT_TOT_TURNO VARCHAR(8),             -- Código da situação do turno
     DS_SIT_TOT_TURNO VARCHAR(100),           -- Descrição da situação do turno
-    emails VARCHAR(50),                      -- Exemplos de Emails
-    telefones VARCHAR(15)                    -- Exemplos de Telefones
+    emails TEXT,                             -- Exemplos de Emails
+    telefones TEXT                           -- Exemplos de Telefones
+);
 );
 ```
 ### Tabelas Separadas
