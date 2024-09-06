@@ -2,8 +2,28 @@
 
 ### Estrutura da Tabela
 ![image](https://github.com/user-attachments/assets/37106aeb-acff-4f5a-90f1-bc5db4ee6f45)
+![image](https://github.com/user-attachments/assets/38d9d6ba-9430-47b4-af61-da7831e34093)
 
 
+
+
+### Tabelas 
+1. Eleição
+2. Unidade Eleitoral
+3. Candidato
+4. Email
+5. Telefone
+6. Ocupação
+7. Ocupação_Candidato
+8. Partido
+9. Federação
+10. Coligação
+
+
+
+# Popular os Dados
+- Primeiro devemos criar uma TABLE contendo todo o conteúdo do nosso csv:
+  
 ``` sql
 
 CREATE TABLE IF NOT EXISTS dados_eleitorais (
@@ -61,17 +81,12 @@ email TEXT,                             -- Exemplos de Emails
 telefone TEXT                           -- Exemplos de Telefones
 );
 ```
-### Tabelas Separadas
-1. Eleição
-2. Unidade Eleitoral
-3. Candidato
-4. Email
-5. Telefone
-6. Ocupação
-7. Ocupação_Candidato
-8. Partido
-9. Federação
-10. Coligação
+### Devemos ir no diretorio do PostgreSQL/bin e entrar com psql -U user -d database -h localhost pelo terminal
+### Use esse comando para carregar o csv na nossa tabela "dados_eleitorais"
+``` bash
+\copy dados_eleitorais FROM 'C:\PATH\candidatos2024SP.csv' WITH (FORMAT csv, HEADER, DELIMITER ';', ENCODING 'UTF-8');
+```
+### Após isso devemos criar as nossas TABLES separadamente
 
 ``` sql
 CREATE TABLE IF NOT EXISTS eleicao(
@@ -153,19 +168,110 @@ CREATE TABLE IF NOT EXISTS ocupacao_candidato(
 	FOREIGN KEY (cd_ocupacao) REFERENCES ocupacao(cd_ocupacao)
 );
 ```
+# Criamos as nossas TABLES separadas e temos uma TABLE geral contendo as informações do csv. Agora vamos transferir o conteudo da nossa TABLE "Geral" para as Separadas
+``` sql
+INSERT INTO eleicao (CD_ELEICAO, DS_ELEICAO, DT_ELEICAO, TP_ABRANGENCIA_ELEICAO, ANO_ELEICAO, CD_TIPO_ELEICAO, NM_TIPO_ELEICAO, NR_TURNO)
+SELECT CD_ELEICAO, DS_ELEICAO, DT_ELEICAO, TP_ABRANGENCIA_ELEICAO, ANO_ELEICAO, CD_TIPO_ELEICAO, NM_TIPO_ELEICAO, NR_TURNO
+FROM dados_eleitorais
+ON CONFLICT DO NOTHING;
+
+
+INSERT INTO unidade_eleitoral (
+    cd_eleicao, sq_ue, nm_ue, sg_uf
+)
+SELECT 
+    cd_eleicao, sq_ue, nm_ue, sg_uf
+FROM dados_eleitorais
+ON CONFLICT DO NOTHING;
+
+
+INSERT INTO federacao (
+    nr_federacao, nm_federacao, sg_federacao, ds_composicao_federacao
+)
+SELECT 
+    nr_federacao, nm_federacao, sg_federacao, ds_composicao_federacao
+FROM dados_eleitorais
+ON CONFLICT DO NOTHING;
+
+
+INSERT INTO coligacao (
+    sq_coligacao, nm_coligacao, ds_composicao_coligacao
+)
+SELECT 
+    sq_coligacao, nm_coligacao, ds_composicao_coligacao
+FROM dados_eleitorais
+ON CONFLICT DO NOTHING;
+
+
+INSERT INTO partido (
+    nr_federacao, sq_coligacao, nr_partido, sg_partido, nm_partido
+)
+SELECT 
+    nr_federacao, sq_coligacao, nr_partido, sg_partido, nm_partido
+FROM dados_eleitorais
+ON CONFLICT DO NOTHING;
+
+
+INSERT INTO candidato (
+    cd_eleicao, nr_partido, sq_candidato, nm_candidato, ds_genero, ds_cor_raca, 
+    dt_nascimento, nr_titulo_eleitoral_candidato, nm_urna_candidato, 
+    nr_candidato, ds_estado_civil, cd_situacao_candidatura, ds_grau_instrucao
+)
+SELECT 
+    cd_eleicao, nr_partido, sq_candidato, nm_candidato, ds_genero, ds_cor_raca, 
+    dt_nascimento, nr_titulo_eleitoral_candidato, nm_urna_candidato, 
+    nr_candidato, ds_estado_civil, cd_situacao_candidatura, ds_grau_instrucao
+FROM dados_eleitorais
+ON CONFLICT DO NOTHING;
+
+
+INSERT INTO telefone (
+    sq_candidato, telefones
+)
+SELECT 
+    sq_candidato, telefone
+FROM dados_eleitorais
+ON CONFLICT DO NOTHING;
+
+
+INSERT INTO email (
+    sq_candidato, emails
+)
+SELECT 
+    sq_candidato, email
+FROM dados_eleitorais
+ON CONFLICT DO NOTHING;
+
+
+INSERT INTO ocupacao (
+    cd_ocupacao, ds_ocupacao
+)
+SELECT 
+    cd_ocupacao, ds_ocupacao
+FROM dados_eleitorais
+ON CONFLICT DO NOTHING;
+
+
+INSERT INTO ocupacao_candidato (
+    sq_candidato, cd_ocupacao
+)
+SELECT 
+    sq_candidato, cd_ocupacao
+FROM dados_eleitorais
+ON CONFLICT DO NOTHING;
+
+```
+
+## Não precisamos mais da nossa TABLE dados_eleitorais, então utilize esse comando para excluí-la
+```sql
+DROP TABLE dados_eleitorais
+```
+
 # Formas Normais das Tabelas 
+### Todas estão na (3FN), mas explicarei melhor nessas 5 tabelas:
 - eleicao
 - unidade eleitoral
 - federacao
 - candidato
 - telefone
-
-  
-### Entrar no diretorio do PostgreSQL/bin e entrar com psql -U user -d database -h localhost
-``` bash
-\copy dados_eleitorais FROM 'PATH csv' WITH (FORMAT csv, HEADER, DELIMITER ';');
-```
-
-
-
 
