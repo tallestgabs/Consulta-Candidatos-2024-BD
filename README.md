@@ -55,8 +55,8 @@ CREATE TABLE IF NOT EXISTS dados_eleitorais (
     CD_OCUPACAO VARCHAR(5),                  -- Código da ocupação
     DS_OCUPACAO VARCHAR(100),                -- Descrição da ocupação
     CD_SIT_TOT_TURNO VARCHAR(8),             -- Código da situação do turno
-    DS_SIT_TOT_TURNO VARCHAR(100)            -- Descrição da situação do turno
-    emails VARCHAR(50)                       -- Exemplos de Emails
+    DS_SIT_TOT_TURNO VARCHAR(100),           -- Descrição da situação do turno
+    emails VARCHAR(50),                      -- Exemplos de Emails
     telefones VARCHAR(15)                    -- Exemplos de Telefones
 );
 ```
