@@ -1,13 +1,19 @@
 # Consulta-Candidatos-2024-BD
 
 ### Estrutura da Tabela
+- Ferramenta utilizada [BR-MODELO](https://www.brmodeloweb.com/lang/pt-br/index.html)
+# Modelo Entidade Relacionamento
 ![image](https://github.com/user-attachments/assets/37106aeb-acff-4f5a-90f1-bc5db4ee6f45)
-![image](https://github.com/user-attachments/assets/38d9d6ba-9430-47b4-af61-da7831e34093)
+# Modelo Lógico
+![image](https://github.com/user-attachments/assets/534ae217-7789-482b-8c3e-26ede86a3a70)
 
 
 
 
-### Tabelas 
+
+
+
+## Tabelas 
 1. Eleição
 2. Unidade Eleitoral
 3. Candidato
@@ -21,7 +27,7 @@
 
 
 
-# Popular os Dados
+# Como populamos os Dados
 - Primeiro devemos criar uma TABLE contendo todo o conteúdo do nosso csv:
   
 ``` sql
@@ -169,7 +175,7 @@ CREATE TABLE IF NOT EXISTS ocupacao_candidato(
 	FOREIGN KEY (cd_ocupacao) REFERENCES ocupacao(cd_ocupacao)
 );
 ```
-# Criamos as nossas TABLES separadas e temos uma TABLE geral contendo as informações do csv. Agora vamos transferir o conteudo da nossa TABLE "Geral" para as Separadas
+### Criamos as nossas TABLES separadas e temos uma TABLE geral contendo as informações do csv. Agora vamos transferir o conteudo da nossa TABLE "Geral" para as Separadas
 ``` sql
 INSERT INTO eleicao (cd_eleicao, ds_eleicao, ds_cargo, dt_eleicao, tp_abrangencia_eleicao, ano_eleicao, cd_tipo_eleicao, nm_tipo_eleicao, nr_turno)
 SELECT cd_eleicao, ds_eleicao, ds_cargo, dt_eleicao, tp_abrangencia_eleicao, ano_eleicao, cd_tipo_eleicao, nm_tipo_eleicao, nr_turno
@@ -270,9 +276,84 @@ DROP TABLE dados_eleitorais
 
 # Formas Normais das Tabelas 
 ### Todas estão na (3FN), mas explicarei melhor nessas 5 tabelas:
-- eleicao
-- unidade eleitoral
-- federacao
-- candidato
-- telefone
+## eleicao
+```sql
+CREATE TABLE IF NOT EXISTS eleicao(
+	cd_eleicao VARCHAR(5) PRIMARY KEY, 
+	ds_eleicao VARCHAR(100),
+        ds_cargo VARCHAR(100),
+	dt_eleicao VARCHAR(12),
+	tp_abrangencia_eleicao VARCHAR(50),
+	ano_eleicao VARCHAR(5),
+	cd_tipo_eleicao VARCHAR(5),
+	nm_tipo_eleicao VARCHAR(50),
+	nr_turno VARCHAR(2)
+);
+```
+- 1FN: Está na 1FN porque todos os valores são atômicos (não há listas ou conjuntos de valores em uma única célula).
+- 2FN: Está na 2FN porque a chave primária (cd_eleicao) é um atributo único e todos os outros atributos dependem completamente dela.
+- 3FN: Está na 3FN porque não há dependências transitivas entre os atributos não chave. Todos os atributos dependem diretamente da chave primária cd_eleicao.
+  
+## unidade eleitoral
+```sql
+CREATE TABLE IF NOT EXISTS unidade_eleitoral (
+	cd_eleicao VARCHAR(5),
+	sq_ue VARCHAR(7) PRIMARY KEY,
+	nm_ue VARCHAR(40),
+	sg_uf VARCHAR(2),
+	FOREIGN KEY (cd_eleicao) REFERENCES eleicao(cd_eleicao)
+);
+```
+- 1FN: Está na 1FN porque os valores são atômicos.
+- 2FN: Está na 2FN porque (sq_ue) é a chave primária, e todos os atributos dependem dessa chave. 
+- 3FN: Está na 3FN, pois não há dependência transitiva entre os atributos não chave. Todos os atributos (como nm_ue e sg_uf) dependem diretamente da chave primária (sq_ue).
+  
+## federacao
+```sql
+CREATE TABLE IF NOT EXISTS federacao (
+	nr_federacao VARCHAR(7) PRIMARY KEY,  
+	nm_federacao VARCHAR(100),      
+	sg_federacao VARCHAR(20),        
+	ds_composicao_federacao TEXT
+);
+```
+- 1FN: Está na 1FN porque os valores são atômicos.
+- 2FN: Está na 2FN, pois todos os atributos dependem completamente da chave primária (nr_federacao).
+- 3FN: Está na 3FN, já que não há dependências transitivas entre os atributos não chave.
+  
+## candidato
+```sql
+CREATE TABLE IF NOT EXISTS candidato (
+	cd_eleicao VARCHAR(5),
+	nr_partido VARCHAR(3),
+	sq_candidato VARCHAR(20) PRIMARY KEY,
+	nm_candidato VARCHAR(100),
+	ds_genero VARCHAR(25),
+	ds_cor_raca VARCHAR(20),
+	dt_nascimento VARCHAR(12),
+	nr_titulo_eleitoral_candidato VARCHAR(15),
+	nm_urna_candidato VARCHAR(100),
+	nr_candidato VARCHAR(10),
+	ds_estado_civil VARCHAR(25),
+	cd_situacao_candidatura VARCHAR(4),
+	ds_grau_instrucao VARCHAR(50),
+	FOREIGN KEY (cd_eleicao) REFERENCES eleicao(cd_eleicao),
+	FOREIGN KEY (nr_partido) REFERENCES partido(nr_partido)
+);
+```
+- 1FN: Está na 1FN porque os valores são atômicos.
+- 2FN: Está na 2FN porque a chave primária é (sq_candidato), e todos os atributos dependem completamente dela.
+- 3FN: Está na 3FN, pois não há dependências transitivas entre os atributos não chave. Todos os atributos (como nm_candidato, ds_genero, ds_cor_raca) dependem diretamente da chave primária (sq_candidato).
+  
+## telefone
+```sql
+CREATE TABLE IF NOT EXISTS telefone(
+	sq_candidato VARCHAR(20),
+	telefones TEXT,
+	FOREIGN KEY (sq_candidato) REFERENCES candidato(sq_candidato)
+);
+```
+- 1FN: Está na 1FN, pois os valores são atômicos.
+- 2FN: Está na 2FN, já que todos os atributos dependem diretamente da chave estrangeira (sq_candidato). A tabela é uma normalização da relação multivalorada de telefone.
+- 3FN: Está na 3FN, pois não há dependências transitivas. O único atributo é telefones, que depende diretamente de (sq_candidato).
 
