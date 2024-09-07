@@ -25,6 +25,7 @@
 9. Federação
 10. Coligação
 
+---
 
 
 # Como populamos os Dados
@@ -273,6 +274,16 @@ ON CONFLICT DO NOTHING;
 ```sql
 DROP TABLE dados_eleitorais
 ```
+
+---
+## Muito complicado não é mesmo? Isso tudo foi mais uma explicação de como populamos o banco de dados, caso você queira acessar de uma forma fácil estamos disponibilizando um arquivo chamado "Candidatos2024.sql", baixe ele e utilize este comando:
+```bash
+psql -U usuario -d nome_do_banco -f /caminho/para/Candidatos2024.sql
+```
+## Prontinho! você terá acesso ao nosso banco de dados sem nenhuma complicação
+
+
+---
 
 # Formas Normais das Tabelas 
 ### Todas estão na (3FN), mas explicarei melhor nessas 5 tabelas:
