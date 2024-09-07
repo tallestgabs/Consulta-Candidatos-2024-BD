@@ -27,7 +27,7 @@
 
 
 
-# Popular os Dados
+# Como populamos os Dados
 - Primeiro devemos criar uma TABLE contendo todo o conteúdo do nosso csv:
   
 ``` sql
