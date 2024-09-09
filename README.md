@@ -172,7 +172,7 @@ CREATE TABLE IF NOT EXISTS ocupacao_candidato(
 	FOREIGN KEY (cd_ocupacao) REFERENCES ocupacao(cd_ocupacao)
 );
 ```
-### Criamos as nossas TABLES separadas e temos uma TABLE geral contendo as informações do csv. Agora vamos transferir o conteudo da nossa TABLE "Geral" para as Separadas
+### Criamos as nossas TABLES separadas e temos uma TABLE geral contendo as informações do csv. Agora vamos transferir o conteúdo da nossa TABLE "Geral" para as Separadas
 ``` sql
 INSERT INTO eleicao (cd_eleicao, ds_eleicao, ds_cargo, dt_eleicao, tp_abrangencia_eleicao, ano_eleicao, cd_tipo_eleicao, nm_tipo_eleicao, nr_turno)
 SELECT cd_eleicao, ds_eleicao, ds_cargo, dt_eleicao, tp_abrangencia_eleicao, ano_eleicao, cd_tipo_eleicao, nm_tipo_eleicao, nr_turno
@@ -346,13 +346,10 @@ JOIN ocupacao o ON oc.cd_ocupacao = o.cd_ocupacao;
 
 
 ---
-## Muito complicado não é mesmo? Isso tudo foi mais uma explicação de como populamos o banco de dados, caso você queira acessar de uma forma fácil estamos disponibilizando um arquivo chamado "Candidatos2024.sql", baixe ele e utilize este comando:
+## Caso você queira acessar de uma forma fácil estamos disponibilizando um arquivo chamado "Candidatos2024.sql", baixe ele [AQUI](https://drive.google.com/file/d/1buiqizU8WMNA5Q_rxh9dlg5I47-V7JLn/view?usp=sharing) e utilize este comando para carregar o arquivo no Postgresql:
 ```bash
 psql -U usuario -d nome_do_banco -f /caminho/para/Candidatos2024.sql
 ```
-## Prontinho! você terá acesso ao nosso banco de dados sem nenhuma complicação
-- OBS: Esse arquivo sql presente no github não contém os binários das imagens dos candidatos, o arquivo com as imagens poderão ser baixadas através desse [link](https://drive.google.com/file/d/1buiqizU8WMNA5Q_rxh9dlg5I47-V7JLn/view?usp=sharing)
-
 
 ---
 
