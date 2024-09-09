@@ -3,15 +3,10 @@
 ### Estrutura da Tabela
 - Ferramenta utilizada [BR-MODELO](https://www.brmodeloweb.com/lang/pt-br/index.html)
 # Modelo Entidade Relacionamento
-![image](https://github.com/user-attachments/assets/37106aeb-acff-4f5a-90f1-bc5db4ee6f45)
+![image](https://github.com/user-attachments/assets/95464d0a-0207-4523-9940-e856df8e9154)
+
 # Modelo Lógico
-![image](https://github.com/user-attachments/assets/534ae217-7789-482b-8c3e-26ede86a3a70)
-
-
-
-
-
-
+![image](https://github.com/user-attachments/assets/994aeac6-ef9b-42e7-8d4a-3456d046c47f)
 
 ## Tabelas 
 1. Eleição
@@ -97,6 +92,7 @@ telefone TEXT                            -- Exemplos de Telefones
 
 ``` sql
 CREATE TABLE IF NOT EXISTS eleicao(
+	foto BYTEA,
 	cd_eleicao VARCHAR(5) PRIMARY KEY, 
 	ds_eleicao VARCHAR(100),
         ds_cargo VARCHAR(100),
@@ -275,12 +271,87 @@ ON CONFLICT DO NOTHING;
 DROP TABLE dados_eleitorais
 ```
 
+# Views
+```sql
+CREATE VIEW view_genero_cargo_partido AS
+SELECT 
+    c.foto,
+    c.nm_candidato AS nome,
+    c.sq_candidato AS sequencia,
+    c.ds_genero AS genero,
+    e.ds_cargo AS cargo,
+    p.sg_partido AS partido
+FROM candidato c
+JOIN eleicao e ON c.cd_eleicao = e.cd_eleicao
+JOIN partido p ON c.nr_partido = p.nr_partido;
+
+
+
+CREATE VIEW view_cor_cargo_partido AS
+SELECT 
+    c.foto,
+    c.nm_candidato AS nome,
+    c.sq_candidato AS sequencia,
+    c.ds_cor_raca AS cor,
+    e.ds_cargo AS cargo,
+    p.sg_partido AS partido
+FROM candidato c
+JOIN eleicao e ON c.cd_eleicao = e.cd_eleicao
+JOIN partido p ON c.nr_partido = p.nr_partido;
+
+
+
+CREATE VIEW view_instrucao_cargo_partido AS
+SELECT 
+    c.foto,
+    c.nm_candidato AS nome,
+    c.sq_candidato AS sequencia,
+    c.ds_grau_instrucao AS grau_instrucao,
+    e.ds_cargo AS cargo,
+    p.sg_partido AS partido
+FROM candidato c
+JOIN eleicao e ON c.cd_eleicao = e.cd_eleicao
+JOIN partido p ON c.nr_partido = p.nr_partido;
+
+
+
+CREATE VIEW view_federacao_turno_partido AS
+SELECT 
+    c.foto,
+    c.nm_candidato AS nome,
+    c.sq_candidato AS sequencia,
+    f.sg_federacao AS federacao,
+    e.nr_turno AS turno,
+    p.sg_partido AS partido
+FROM candidato c
+JOIN partido p ON c.nr_partido = p.nr_partido
+JOIN federacao f ON p.nr_federacao = f.nr_federacao
+JOIN eleicao e ON c.cd_eleicao = e.cd_eleicao;
+
+
+
+CREATE VIEW view_instrucao_ocupacao_data AS
+SELECT
+    c.foto,
+    c.nm_candidato AS nome,
+    c.sq_candidato AS sequencia,
+    c.ds_grau_instrucao AS grau_instrucao,
+    o.ds_ocupacao AS ocupacao,
+    e.dt_eleicao AS data_eleicao
+FROM candidato c
+JOIN eleicao e ON c.cd_eleicao = e.cd_eleicao
+JOIN ocupacao_candidato oc ON c.sq_candidato = oc.sq_candidato
+JOIN ocupacao o ON oc.cd_ocupacao = o.cd_ocupacao;
+```
+
+
 ---
 ## Muito complicado não é mesmo? Isso tudo foi mais uma explicação de como populamos o banco de dados, caso você queira acessar de uma forma fácil estamos disponibilizando um arquivo chamado "Candidatos2024.sql", baixe ele e utilize este comando:
 ```bash
 psql -U usuario -d nome_do_banco -f /caminho/para/Candidatos2024.sql
 ```
 ## Prontinho! você terá acesso ao nosso banco de dados sem nenhuma complicação
+- OBS: Esse arquivo sql presente no github não contém os binários das imagens dos candidatos, o arquivo com as imagens poderão ser baixadas através desse [link](https://drive.google.com/file/d/1buiqizU8WMNA5Q_rxh9dlg5I47-V7JLn/view?usp=sharing)
 
 
 ---
@@ -368,3 +439,6 @@ CREATE TABLE IF NOT EXISTS telefone(
 - 2FN: Está na 2FN, já que todos os atributos dependem diretamente da chave estrangeira (sq_candidato). A tabela é uma normalização da relação multivalorada de telefone.
 - 3FN: Está na 3FN, pois não há dependências transitivas. O único atributo é telefones, que depende diretamente de (sq_candidato).
 
+
+# Fotos dos candidatos no banco de dados
+- 
