@@ -41,15 +41,16 @@
             padding: 20px;
             width: 100%;
             max-width: 400px;
-            border: 1px solid #f3ff45;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
             border-radius: 4px;
         }
         button {
             background-color: #09e310;
             color: rgb(0, 0, 0);
             border: none;
-            border-bottom: 1px solid black;
-            border-right: 1px solid black;
+            border: 3px groove;
+            border-bottom: 3px solid black;
+            border-right: 3px solid black;
             cursor: pointer;
             font-size: 19px;
         }
@@ -66,6 +67,7 @@
         .card {
             border: 1px solid #ccc;
             padding: 10px;
+            border: 2px groove;
             background-color: #fafafa;
             border-radius: 8px;
             text-align: center;
@@ -112,7 +114,7 @@
 </head>
 <body>
     <div class="container" id="cabecalho">
-        <img src="https://cdn-icons-png.flaticon.com/512/5930/5930444.png" alt="Logo Eleição 2024">
+        <img src="..\assets\candidatos.png" alt="Logo Eleição 2024">
         <h1>Consulta Candidatos</h1>
         <h4>Banco de Dados das Eleições Municipais de 2024</h4>
         <p>Conheça os vereadores e prefeitos(as) da sua cidade.</p>
@@ -146,8 +148,8 @@
             <div style="display: flex; gap: 10px;">
                 <select id="cargo">
                     <option value="">Cargo</option>
-                    <option value="vereador">Vereador</option>
                     <option value="prefeito">Prefeito</option>
+                    <option value="vereador">Vereador</option>
                 </select>
 
                 <select id="estado">
@@ -170,35 +172,36 @@
                 </select>
                 <select id="partido">
                     <option value="">Partido</option>
-                    <option value="MDB">MDB</option>
-                    <option value="PT">PT</option>
-                    <option value="PRD">PRD</option>
-                    <option value="PP">PP</option>
-                    <option value="PSDB">PSDB</option>
-                    <option value="PDT">PDT</option>
-                    <option value="UNIÃO">UNIÃO</option>
-                    <option value="PL">PL</option>
-                    <option value="PODE">PODE</option>
-                    <option value="PSB">PSB</option>
-                    <option value="Republicanos">Republicanos</option>
-                    <option value="PSD">PSD</option>
-                    <option value="Cidadania">Cidadania</option>
-                    <option value="PCdoB">PCdoB</option>
-                    <option value="Solidariedade">Solidariedade</option>
-                    <option value="PV">PV</option>
-                    <option value="PSOL">PSOL</option>
-                    <option value="Avante">Avante</option>
-                    <option value="MOBILIZA">MOBILIZA</option>
                     <option value="Agir">Agir</option>
+                    <option value="Avante">Avante</option>
+                    <option value="Cidadania">Cidadania</option>
                     <option value="DC">DC</option>
-                    <option value="PRTB">PRTB</option>
+                    <option value="MDB">MDB</option>
+                    <option value="MOBILIZA">MOBILIZA</option>
                     <option value="NOVO">NOVO</option>
-                    <option value="PMB">PMB</option>
-                    <option value="REDE">REDE</option>
-                    <option value="PSTU">PSTU</option>
                     <option value="PCB">PCB</option>
-                    <option value="UP">UP</option>
+                    <option value="PCdoB">PCdoB</option>
                     <option value="PCO">PCO</option>
+                    <option value="PDT">PDT</option>
+                    <option value="PL">PL</option>
+                    <option value="PMB">PMB</option>
+                    <option value="PODE">PODE</option>
+                    <option value="PP">PP</option>
+                    <option value="PRD">PRD</option>
+                    <option value="PRTB">PRTB</option>
+                    <option value="PSB">PSB</option>
+                    <option value="PSC">PSC</option>
+                    <option value="PSD">PSD</option>
+                    <option value="PSDB">PSDB</option>
+                    <option value="PSOL">PSOL</option>
+                    <option value="PSTU">PSTU</option>
+                    <option value="PT">PT</option>
+                    <option value="PV">PV</option>
+                    <option value="REDE">REDE</option>
+                    <option value="Republicanos">Republicanos</option>
+                    <option value="Solidariedade">Solidariedade</option>
+                    <option value="UNIÃO">UNIÃO</option>
+                    <option value="UP">UP</option>
                 </select>
 
                 <select id="estado-civil">
@@ -250,12 +253,13 @@
                 </select>
             </div>
             <button type="submit" onclick="playSound()">CONFIRMA</button>
-            <!-- <script>
+            <audio id="urna-sound" src="../assets/Som-de-Urna-Eletrônica.mp3"></audio>
+            <script>
                 function playSound() {
-                    var audio = new Audio('C:\Users\vinic\Documents\GitHub\Consulta-Candidatos-2024-BD\assets\Som-de-Urna-Eletrônica.mp3');
+                    var audio = document.getElementById("urna-sound");
                     audio.play();
                 }
-            </script> -->
+            </script>
         </form>
     </div>
     
@@ -321,11 +325,12 @@
             </div>
            
  <div>
-                <input type="email" placeholder="Seu e-mail">
+                <input type="email" placeholder="Seu e-mail" style="border: 3px groove;">
                 <button type="button" onclick="playSound()">CONFIRMA</button>
+                <audio id="urna-sound" src="../assets/Som-de-Urna-Eletrônica.mp3"></audio>
                 <script>
                     function playSound() {
-                        var audio = new Audio('../assets\Som-de-Urna-Eletrônica.mp3');
+                        var audio = document.getElementById("urna-sound");
                         audio.play();
                     }
                 </script>
