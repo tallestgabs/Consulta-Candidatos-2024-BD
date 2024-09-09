@@ -6,25 +6,29 @@
     <title>Eleição 2024</title>
     <style>
         body {
-            font-family: Roboto, sans-serif;
+            font-family: Helvetica;
             margin: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
-            background-color: rgba(36, 194, 204, 0.58); /* Atualiza a cor de fundo */
+            background-image: url('https://s1.1zoom.me/b5050/84/429037-svetik_3840x2160.jpg');
+            background-size: cover;
+            background-position: center;
+            filter: blur(0px);
         }
         .container {
             padding: 20px;
-            border: 1px solid #ccc;
-            background-color: #fff;
+            border: 3px groove;
+            background-color: #dddddd;
             margin: 10px 0;
             text-align: center;
             width: 90%;
-            max-width: 1000px; /* Aumenta a largura máxima dos containers */
+            max-width: 1000px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 22px;
         }
         .container img {
-            max-width: 100px;
+            max-width: 200px;
             height: auto;
         }
         form {
@@ -34,21 +38,23 @@
         }
         select, input, button {
             margin: 10px 0;
-            padding: 10px;
+            padding: 20px;
             width: 100%;
             max-width: 400px;
-            border: 1px solid #ddd;
+            border: 1px solid #bbd74b;
             border-radius: 4px;
         }
         button {
-            background-color: #4CAF50;
-            color: white;
+            background-color: #1de924;
+            color: rgb(0, 0, 0);
             border: none;
+            border-bottom: 1px solid black;
+            border-right: 1px solid black;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 19px;
         }
         button:hover {
-            background-color: #45a049;
+            background-color: #3bb13f;
         }
         #card-grid {
             display: grid;
@@ -64,8 +70,8 @@
             border-radius: 8px;
             text-align: center;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            max-width: 240px; /* Define a largura máxima do cartão */
-            box-sizing: border-box; /* Inclui o padding e a borda no tamanho total do cartão */
+            max-width: 240px; 
+            box-sizing: border-box;
         }
         .card img {
             max-width: 100%;
@@ -115,6 +121,7 @@
     <div class="container" id="formulario">
         <!-- Formulário para buscar candidatos -->
         <form>
+            <h3>Selecione ao menos os 3  campos abaixo:</h3>
             <select id="cargo">
                 <option value="">Cargo</option>
                 <option value="vereador">Vereador</option>
@@ -130,7 +137,7 @@
                 <option value="">Município</option>
                 <option value="São Paulo">São Paulo</option>
             </select>
-            
+            <h3>Caso queira, refina as características do candidato que você procura:</h3>
             <select id="partido">
               <option value="">Partido</option>
               <option value="MDB">MDB</option>
@@ -198,7 +205,13 @@
                 <option value="superior-completo">Superior Completo</option>
             </select>
             
-            <button type="submit">Buscar</button>
+            <button type="submit" onclick="playSound()">CONFIRMA</button>
+            <!-- <script>
+                function playSound() {
+                    var audio = new Audio('C:\Users\vinic\Documents\GitHub\Consulta-Candidatos-2024-BD\assets\Som-de-Urna-Eletrônica.mp3');
+                    audio.play();
+                }
+            </script> -->
         </form>
     </div>
     
@@ -265,13 +278,25 @@
            
  <div>
                 <input type="email" placeholder="Seu e-mail">
-                <button type="button">Inscreva-se</button>
+                <button type="button" onclick="playSound()">CONFIRMA</button>
+                <!-- <script>
+                    function playSound() {
+                        var audio = new Audio('C:\Users\vinic\Documents\GitHub\Consulta-Candidatos-2024-BD\assets\Som-de-Urna-Eletrônica.mp3');
+                        audio.play();
+                    }
+                </script> -->
             </div>
         </div>
     </div>
 
-    <div id="rodape">
-        <p>&copy; 2024 Eleição 2024. Todos os direitos reservados.</p>
+    <div class="container" id="rodape">
+        <br>
+        <img src="../assets\logounb.fw_.png" alt="Logo UnB">
+        <p>CIC0097 - BANCOS DE DADOS - T01</p>
+        <p>Departamento de Ciência da Computação</p>
+        <p>Universidade de Brasília</p>
+        <br>
+        <p>Eleição 2024 &copy; Todos os direitos reservados.</p>
     </div>
 </body>
 </html>
