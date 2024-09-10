@@ -438,4 +438,6 @@ CREATE TABLE IF NOT EXISTS telefone(
 
 
 # Fotos dos candidatos no banco de dados
-- 
+
+# Controlador
+O controlador é constituído por um web server escrito em GO.
