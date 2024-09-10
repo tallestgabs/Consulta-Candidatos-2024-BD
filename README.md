@@ -443,3 +443,70 @@ CREATE TABLE IF NOT EXISTS telefone(
 - O controlador é constituído por um web server escrito em GO.
 - Através dele, a interface do navegador realiza requisições de busca para o banco de dados.
 - Ao fim da consulta, os resultados são exibidos na interface
+```go
+/Puts candidates info cards on the page
+func executeTemplate(w http.ResponseWriter, page_struct pageCards) {
+	templ, err := template.ParseFiles("pages/desktop.html")
+
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	
+	templ.Execute(w, page_struct)
+}
+
+//Request handler for "/"
+func indexHandler(w http.ResponseWriter, r* http.Request) {
+	no_cards := pageCards{nil}
+	executeTemplate(w, no_cards)
+}
+
+//Request handler for "/search"
+func searchHandler(w http.ResponseWriter, r* http.Request) {
+	if r.Method == "GET" {
+		r.ParseForm()
+	}
+	
+	var query_result [][]perfilCandidato
+	var queryStr string
+	
+	//Query 1
+	queryStr = createQueryStr(strings.ToUpper(r.Form["cor-raca"][0]), strings.ToUpper(r.Form["cargo"][0]), strings.ToUpper(r.Form["partido"][0]), 1)
+	query_result = append(query_result, getFromView(queryStr))
+
+	//Query 2
+	queryStr = createQueryStr(strings.ToUpper(r.Form["federacao"][0]), strings.ToUpper(r.Form["turno"][0]), strings.ToUpper(r.Form["partido"][0]), 2)
+	query_result = append(query_result, getFromView(queryStr))
+	
+	//Query 3
+	queryStr = createQueryStr(strings.ToUpper(r.Form["genero"][0]), strings.ToUpper(r.Form["cargo"][0]), strings.ToUpper(r.Form["partido"][0]), 3)
+	query_result = append(query_result, getFromView(queryStr))
+	
+	//Query 4
+	queryStr = createQueryStr(strings.ToUpper(r.Form["instrucao"][0]), strings.ToUpper(r.Form["cargo"][0]), strings.ToUpper(r.Form["partido"][0]), 4)
+	query_result = append(query_result, getFromView(queryStr))
+	
+	//Query 5
+	queryStr = createQueryStr(strings.ToUpper(r.Form["instrucao"][0]), strings.ToUpper(r.Form["ocupacao"][0]), "", 5)
+	query_result = append(query_result, getFromView(queryStr))
+	
+	cards := generateCards(query_result) 
+	page_struct := pageCards{cards}	
+
+	executeTemplate(w, page_struct)
+}
+
+func main() {
+	//Creating http request handlers
+	http.HandleFunc("/", indexHandler)
+	http.HandleFunc("/search", searchHandler)
+	
+	//Creating image and audio files handler	
+	http.Handle("/assets/", http.StripPrefix("/assets/", http.FileServer(http.Dir("assets"))))
+
+	//Run http server on port 8080
+	fmt.Println("Starting server on port 8080...")
+	log.Fatal(http.ListenAndServe(":8080", nil))
+}
+```
