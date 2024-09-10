@@ -220,21 +220,21 @@ func generateCards(query_result [][]perfilCandidato) []cardInfo {
 	var cards []cardInfo
 
 	for row_index := range query_result[0] {
-		name := query_result[0][row_index].Nome
+		id := query_result[0][row_index].Id
 		table_index := 1
-		name_count := 1
+		id_count := 1
 
 		for table_index < len(query_result) {
 			for row_index2 := range query_result[table_index] {
-				if query_result[table_index][row_index2].Nome == name {
-					name_count += 1
+				if query_result[table_index][row_index2].Id == id {
+					id_count += 1
 				}	
 			}
 
 			table_index += 1
 		}
 
-		if name_count >= 5 {
+		if id_count >= 5 {
 			imagem := base64.StdEncoding.EncodeToString(query_result[0][row_index].Foto)	
 
 			current_card := cardInfo{imagem, query_result[0][row_index].Nome, query_result[0][row_index].Id, query_result[0][row_index].Atr3}
