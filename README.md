@@ -438,7 +438,14 @@ CREATE TABLE IF NOT EXISTS telefone(
 
 
 # Fotos dos candidatos no banco de dados
-
+- Estávamos na dúvida entre duas opções, usar um serviço de cloud como o aws da Amazon, ou inserir os dados diretamente no banco de dados com o Blob (Binary Large Object), cada um tem suas vantagens e desvantagens, se tratando de um projeto de candidatos onde existem dezenas de milhares de fotos, a cloud claramente era a melhor opção, ainda mais quando o plano gratuito da cloud ja seria o suficiente para armazenar nossos dados e depois era so salvar a url no banco, porém mesmo sabendo disso optamos por fazer com BYTEA (Equivalente ao Blob do PostgreSQL), já que se trata de um projeto acadêmico e não haverá utilização, decidimos que seria interessante mostrar aos outros alunos se um banco de dados com milhares de fotos armazenadas impactaria tanto assim no tempo de consulta.
+### Na pasta scripts há o código em python desenvolvido para armazenar as fotos em binário no banco de dados
+### Resultados
+- Anteriormente a nossa consulta no banco de dados durava em torno de 2 segundos, após inserir o binário das fotos em cada candidato não só o tamanho do sql subiu exponencialmente (para 4GB), como o nosso tempo de consulta no banco de dados mudou para 25 segundos em média
+- Consumo exagerado de memória RAM: Se a pesquisa for alguma coisa mais geral que vai resultar em muitos candidados, um notebook com 8GB de RAM não é capaz de suportar e quando a memoria chega em 100% a aplicação é interrompida pelo OS automáticamente, havendo casos onde o notebook simplesmente para de responder
+- 8GB não é nada comparado ao poder de um servidor, porém é nítido que com a escolha de armazenamento errada, há um desperdício enorme de recursos, além do risco de instabilidade constante
+  
+---
 # Controlador
 - O controlador é constituído por um web server escrito em GO.
 - Através dele, a interface do navegador realiza requisições de busca para o banco de dados.
