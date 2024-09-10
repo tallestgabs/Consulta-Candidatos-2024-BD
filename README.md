@@ -440,4 +440,4 @@ CREATE TABLE IF NOT EXISTS telefone(
 # Fotos dos candidatos no banco de dados
 
 # Controlador
-O controlador é constituído por um web server escrito em GO.
+O controlador é constituído por um web server escrito em GO. Através dele, a interface do navegador realiza requisições de busca para o banco de dados. Ao fim da consulta, os resultados são exibidos na interface
