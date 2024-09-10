@@ -79,10 +79,10 @@ func createQueryStr(atr1 string, atr2 string, atr3 string, view_num int) string 
 				queryStr = fmt.Sprintf("SELECT * FROM view_federacao_turno_partido WHERE federacao = '%s' AND turno = '%s' AND partido = '%s'", atr1, atr2, atr3)
 			}
 			if (atr1 == "" && atr2 != "" && atr3 != "") {
-				queryStr = fmt.Sprintf("SELECT * FROM view_cor_cargo_partido WHERE turno = '%s' AND partido = '%s'", atr2, atr3)
+				queryStr = fmt.Sprintf("SELECT * FROM FROM view_federacao_turno_partido WHERE turno = '%s' AND partido = '%s'", atr2, atr3)
 			}
 			if (atr1 == "" && atr2 == "" && atr3 != "") {
-				queryStr = fmt.Sprintf("SELECT * FROM view_cor_cargo_partido WHERE partido = '%s'", atr3)
+				queryStr = fmt.Sprintf("SELECT * FROM FROM view_federacao_turno_partido WHERE partido = '%s'", atr3)
 			}
 			if (atr1 == "" && atr2 == "" && atr3 == "") {
 				queryStr = "SELECT * FROM view_federacao_turno_partido"
