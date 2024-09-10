@@ -1,4 +1,29 @@
-# Consulta-Candidatos-2024-BD
+![logounb fw_](https://github.com/user-attachments/assets/035506cb-3c85-4ce6-8981-dde07042a663)
+> Departamento de Ciência da Computação
+> 
+> Disciplina: Banco de Dados
+---
+# Consulta Candidatos 2024 BD
+
+### Sumário
+1. [Introdução](#Introdução)
+2. [Estrutura da Tabela](#estrutura-da-tabela)
+3. [Modelo Lógico]
+4. [Tabelas]
+5. ...
+---
+
+
+## Introdução
+Consiste em uma aplicação web com o uso de um banco de dados relacional para a visualização de Vereadores das Eleições Municipais de São Paulo capital. Para o desenvolvimento dessa ferramenta foi utilizado as tecnologias:
+No Front-end:
+- Linguagens HTML, CSS e JavaScript;
+No servidor e no backend:
+- Linguagem Go;
+- SQL, com as soluçõs do SGBD PosgresSQL.
+Assim criado 
+ 	
+	
 
 ### Estrutura da Tabela
 - Ferramenta utilizada [BR-MODELO](https://www.brmodeloweb.com/lang/pt-br/index.html)
