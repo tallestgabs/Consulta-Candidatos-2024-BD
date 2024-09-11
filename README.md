@@ -473,8 +473,7 @@ CREATE TABLE IF NOT EXISTS telefone(
 ---
 # Controlador
 - O controlador é constituído por um web server escrito em GO.
-- Através dele, a interface do navegador realiza requisições de busca para o banco de dados.
-- Ao fim da consulta, os resultados são exibidos na interface
+Basicamente, ele recebe uma requisição da interface (camada view) com dados de formulário. Esses dados são utilizados para que uma consulta seja realizada no banco de dados (camada model). Ao fim da consulta, o controlador realiza o tratamento dos dados para serem enviados de volta à interface (camada view).
 ```go
 /Puts candidates info cards on the page
 func executeTemplate(w http.ResponseWriter, page_struct pageCards) {
