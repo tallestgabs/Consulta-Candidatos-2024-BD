@@ -543,6 +543,28 @@ func main() {
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
 ```
+# Diagrama da camada de mapeamento
+![image](https://github.com/user-attachments/assets/34de3447-30fc-40f8-b7c9-3c21f9ac885a)
+```go
+type perfilCandidato struct { 
+Foto []byte 
+Nome string 
+Id string 
+Atr1 string 
+Atr2 string 
+Atr3 string 
+}
+ type cardInfo struct { 
+Imagem string 
+Nome string 
+Id string 
+Partido string 
+}
+ type pageCards struct { 
+Cards []cardInfo 
+}
+```
+
 # Interface de Usuário
 Dando foco aos elementos essenciais para uma interface de usuário que interagem com o banco de dados, temos essencialmente duas <div>s, uma conta um formulário (id= forms )com menus dropdowns que se asssemlham as [Tabelas](#tabelas), sendo o total de 12 menus dropdowns para a seleção de quantos vereadores devem ser exibidos para o usuário. Ao confirma as seleções e especificações da busca que o usuário deseja fazer, uma requisição é feita ao controler de Go, onde será feita atualização com as buscas desejadas especificadas nos slugs da URL. A outra div importante que conta é a de cartões (id=cards), onde um script na linguagem Go irá inteirar com cartões com as informações dos candidatos e inserindo na tela de usuário.
 
