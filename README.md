@@ -566,8 +566,6 @@ Cards []cardInfo
 ```
 # Interface de Usuário
 ![image](https://github.com/user-attachments/assets/aefdd074-8fbf-4228-8c3c-bc564d5964a2)
-
-Dando foco aos elementos essenciais para uma interface de usuário que interagem com o banco de dados, temos essencialmente duas DIVs, uma conta um formulário (id= forms) com menus dropdowns que se asssemlham as [Tabelas](#tabelas), sendo o total de 12 menus dropdowns para a seleção de quantos vereadores devem ser exibidos para o usuário. Ao confirma as seleções e especificações da busca que o usuário deseja fazer, uma requisição é feita ao controler de Go, onde será feita atualização com as buscas desejadas especificadas nos slugs da URL. A outra div importante que conta é a de cartões (id=cards), onde um script na linguagem Go irá inteirar com cartões com as informações dos candidatos e inserindo na tela de usuário.
 ``` HTML
     <select name="ocupacao" id="ocupacao">
                     <option value="">Ocupação</option>
@@ -592,7 +590,7 @@ Dando foco aos elementos essenciais para uma interface de usuário que interagem
                 }
             </script>
 ```
-Desta forma, a interface do usuário busca oferecer uma maneira intuitiva ao público comum uma aplicação que permite a pesquisa dos candidatos a vereadores, com inclusive utilizano de inspiração o design de uma urna eletrêonica e tendo interações sonoras com o famoso som de uma urna eletrônica. No final é possível deixar o email para que o usuário possa receber novas notícias sobre os candidatos da sua cidade.
+Dando foco aos elementos essenciais para uma interface de usuário que interagem com o banco de dados, temos essencialmente duas DIVs, uma conta um formulário (id= forms) com menus dropdowns que se asssemlham as [Tabelas](#tabelas), sendo o total de 12 menus dropdowns para a seleção de quantos vereadores devem ser exibidos para o usuário. Ao confirma as seleções e especificações da busca que o usuário deseja fazer, uma requisição é feita ao controler de Go, onde será feita atualização com as buscas desejadas especificadas nos slugs da URL. A outra div importante que conta é a de cartões (id=cards), onde um script na linguagem Go irá inteirar com cartões com as informações dos candidatos e inserindo na tela de usuário.
 ``` HTML
     <div class="container" id="cards">
         <h2>Candidatos</h2>
@@ -608,3 +606,4 @@ Desta forma, a interface do usuário busca oferecer uma maneira intuitiva ao pú
         </div>
     </div>
 ```
+Desta forma, a interface do usuário busca oferecer uma maneira intuitiva ao público comum uma aplicação que permite a pesquisa dos candidatos a vereadores, com inclusive utilizano de inspiração o design de uma urna eletrêonica e tendo interações sonoras com o famoso som de uma urna eletrônica. No final é possível deixar o email para que o usuário possa receber novas notícias sobre os candidatos da sua cidade.
