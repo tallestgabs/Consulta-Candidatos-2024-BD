@@ -564,9 +564,47 @@ Partido string
 Cards []cardInfo 
 }
 ```
-
 # Interface de Usuário
-Dando foco aos elementos essenciais para uma interface de usuário que interagem com o banco de dados, temos essencialmente duas <div>s, uma conta um formulário (id= forms )com menus dropdowns que se asssemlham as [Tabelas](#tabelas), sendo o total de 12 menus dropdowns para a seleção de quantos vereadores devem ser exibidos para o usuário. Ao confirma as seleções e especificações da busca que o usuário deseja fazer, uma requisição é feita ao controler de Go, onde será feita atualização com as buscas desejadas especificadas nos slugs da URL. A outra div importante que conta é a de cartões (id=cards), onde um script na linguagem Go irá inteirar com cartões com as informações dos candidatos e inserindo na tela de usuário.
+![image](https://github.com/user-attachments/assets/aefdd074-8fbf-4228-8c3c-bc564d5964a2)
 
+Dando foco aos elementos essenciais para uma interface de usuário que interagem com o banco de dados, temos essencialmente duas <div>s, uma conta um formulário (id= forms) com menus dropdowns que se asssemlham as [Tabelas](#tabelas), sendo o total de 12 menus dropdowns para a seleção de quantos vereadores devem ser exibidos para o usuário. Ao confirma as seleções e especificações da busca que o usuário deseja fazer, uma requisição é feita ao controler de Go, onde será feita atualização com as buscas desejadas especificadas nos slugs da URL. A outra div importante que conta é a de cartões (id=cards), onde um script na linguagem Go irá inteirar com cartões com as informações dos candidatos e inserindo na tela de usuário.
+``` HTML
+    <select name="ocupacao" id="ocupacao">
+                    <option value="">Ocupação</option>
+                    <option value="AGRICULTOR">Agricultor</option>
+                    <option value="ADVOGADO">Advogado</option>
+                    <option value="EMPRESARIO">Empresário</option>
+                    <option value="PROFESSOR">Professor</option>
+                    <option value="ESTUDANTE">Estudante, Bolsista, Estagiário e Assemelhados</option>
+                    <option value="DONA DE CASA">Dona de Casa</option>
+                    <option value="VEREADOR">Vereador</option>
+                    <option value="COMERCIANTE">Comerciante</option>
+                    <option value="ENGENHEIRO">Engenheiro</option>
+                    <option value="OUTROS">Outros</option>
+                </select>
+            </div>
+            <button type="submit" onclick="playSound()">CONFIRMA</button>
+            <audio id="urna-sound" src="/assets/Som-de-Urna-Eletrônica.mp3"></audio>
+            <script>
+                function playSound() {
+                    var audio = document.getElementById("urna-sound");
+                    audio.play();
+                }
+            </script>
+```
 Desta forma, a interface do usuário busca oferecer uma maneira intuitiva ao público comum uma aplicação que permite a pesquisa dos candidatos a vereadores, com inclusive utilizanod de inspiração o design de uma urna eletrêonica e tendo interações sonoras com o famoso som de uma urna eletrônica. No final é possível deixar o email para que o usuário possa receber novas notícias sobre os candidatos da sua cidade.
- 
+``` HTML
+    <div class="container" id="cards">
+        <h2>Candidatos</h2>
+        <div id="card-grid">
+		{{range .Cards}}
+           	 <div class="card">
+			 <img src="data:image/pjeg;charset=utf-8;base64,{{.Imagem}}" alt="Candidato 1">
+			 <h3>{{.Nome}}</h3>
+			 <p>{{.Id}}</p>
+			 <p>{{.Partido}}</p>
+           	 </div>
+		 {{end}}
+        </div>
+    </div>
+```
