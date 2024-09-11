@@ -8,9 +8,12 @@
 ### Sumário
 1. [Introdução](#Introdução)
 2. [Estrutura da Tabela](#estrutura-da-tabela)
-3. [Modelo Lógico]
-4. [Tabelas]
-5. ...
+3. [Modelo Lógico](#modelo-logico)
+4. [Tabelas](#tabelas)
+5. [Como Populamos os Dados](#como-populamos-os-dados)
+6. [Views](#views)
+7. [Formas Normais](#formas-normais)
+8. [Interface de Usuário](#interface-de-usuario)
 ---
 
 
@@ -52,7 +55,6 @@ Assim criado
 - Primeiro devemos criar uma TABLE contendo todo o conteúdo do nosso csv:
   
 ``` sql
-
 CREATE TABLE IF NOT EXISTS dados_eleitorais (
 DT_GERACAO VARCHAR(12),                  -- Data de geração
 HH_GERACAO varchar(12),                  -- Hora de geração
@@ -108,12 +110,12 @@ email TEXT,                              -- Exemplos de Emails
 telefone TEXT                            -- Exemplos de Telefones
 );
 ```
-### Devemos ir no diretorio do PostgreSQL/bin e entrar com psql -U user -d database -h localhost pelo terminal
-### Use esse comando para carregar o csv na nossa tabela "dados_eleitorais"
+* Devemos ir no diretorio do PostgreSQL/bin e entrar com psql -U user -d database -h localhost pelo terminal
+* Use esse comando para carregar o csv na nossa tabela "dados_eleitorais"
 ``` bash
 \copy dados_eleitorais FROM 'C:\PATH\candidatos2024SP.csv' WITH (FORMAT csv, HEADER, DELIMITER ';', ENCODING 'UTF-8');
 ```
-### Após isso devemos criar as nossas TABLES separadamente
+* Após isso devemos criar as nossas TABLES separadamente
 
 ``` sql
 CREATE TABLE IF NOT EXISTS eleicao(
@@ -197,7 +199,7 @@ CREATE TABLE IF NOT EXISTS ocupacao_candidato(
 	FOREIGN KEY (cd_ocupacao) REFERENCES ocupacao(cd_ocupacao)
 );
 ```
-### Criamos as nossas TABLES separadas e temos uma TABLE geral contendo as informações do csv. Agora vamos transferir o conteúdo da nossa TABLE "Geral" para as Separadas
+* Criamos as nossas TABLES separadas e temos uma TABLE geral contendo as informações do csv. Agora vamos transferir o conteúdo da nossa TABLE "Geral" para as Separadas
 ``` sql
 INSERT INTO eleicao (cd_eleicao, ds_eleicao, ds_cargo, dt_eleicao, tp_abrangencia_eleicao, ano_eleicao, cd_tipo_eleicao, nm_tipo_eleicao, nr_turno)
 SELECT cd_eleicao, ds_eleicao, ds_cargo, dt_eleicao, tp_abrangencia_eleicao, ano_eleicao, cd_tipo_eleicao, nm_tipo_eleicao, nr_turno
@@ -291,7 +293,7 @@ ON CONFLICT DO NOTHING;
 
 ```
 
-## Não precisamos mais da nossa TABLE dados_eleitorais, então utilize esse comando para excluí-la
+* Não precisamos mais da nossa TABLE dados_eleitorais, então utilize esse comando para excluí-la
 ```sql
 DROP TABLE dados_eleitorais
 ```
@@ -379,8 +381,8 @@ psql -U usuario -d nome_do_banco -f /caminho/para/Candidatos2024.sql
 ---
 
 # Formas Normais das Tabelas 
-### Todas estão na (3FN), mas explicarei melhor nessas 5 tabelas:
-## eleicao
+* Todas estão na (3FN), mas explicarei melhor nessas 5 tabelas:
+#### eleicao
 ```sql
 CREATE TABLE IF NOT EXISTS eleicao(
 	cd_eleicao VARCHAR(5) PRIMARY KEY, 
@@ -398,7 +400,7 @@ CREATE TABLE IF NOT EXISTS eleicao(
 - 2FN: Está na 2FN porque a chave primária (cd_eleicao) é um atributo único e todos os outros atributos dependem completamente dela.
 - 3FN: Está na 3FN porque não há dependências transitivas entre os atributos não chave. Todos os atributos dependem diretamente da chave primária cd_eleicao.
   
-## unidade eleitoral
+#### unidade eleitoral
 ```sql
 CREATE TABLE IF NOT EXISTS unidade_eleitoral (
 	cd_eleicao VARCHAR(5),
@@ -412,7 +414,7 @@ CREATE TABLE IF NOT EXISTS unidade_eleitoral (
 - 2FN: Está na 2FN porque (sq_ue) é a chave primária, e todos os atributos dependem dessa chave. 
 - 3FN: Está na 3FN, pois não há dependência transitiva entre os atributos não chave. Todos os atributos (como nm_ue e sg_uf) dependem diretamente da chave primária (sq_ue).
   
-## federacao
+#### federacao
 ```sql
 CREATE TABLE IF NOT EXISTS federacao (
 	nr_federacao VARCHAR(7) PRIMARY KEY,  
@@ -425,7 +427,7 @@ CREATE TABLE IF NOT EXISTS federacao (
 - 2FN: Está na 2FN, pois todos os atributos dependem completamente da chave primária (nr_federacao).
 - 3FN: Está na 3FN, já que não há dependências transitivas entre os atributos não chave.
   
-## candidato
+#### candidato
 ```sql
 CREATE TABLE IF NOT EXISTS candidato (
 	cd_eleicao VARCHAR(5),
@@ -449,7 +451,7 @@ CREATE TABLE IF NOT EXISTS candidato (
 - 2FN: Está na 2FN porque a chave primária é (sq_candidato), e todos os atributos dependem completamente dela.
 - 3FN: Está na 3FN, pois não há dependências transitivas entre os atributos não chave. Todos os atributos (como nm_candidato, ds_genero, ds_cor_raca) dependem diretamente da chave primária (sq_candidato).
   
-## telefone
+#### telefone
 ```sql
 CREATE TABLE IF NOT EXISTS telefone(
 	sq_candidato VARCHAR(20),
@@ -541,3 +543,8 @@ func main() {
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
 ```
+# Interface de Usuário
+Dando foco aos elementos essenciais para uma interface de usuário que interagem com o banco de dados, temos essencialmente duas <div>s, uma conta um formulário (id= forms )com menus dropdowns que se asssemlham as [Tabelas](#tabelas), sendo o total de 12 menus dropdowns para a seleção de quantos vereadores devem ser exibidos para o usuário. Ao confirma as seleções e especificações da busca que o usuário deseja fazer, uma requisição é feita ao controler de Go, onde será feita atualização com as buscas desejadas especificadas nos slugs da URL. A outra div importante que conta é a de cartões (id=cards), onde um script na linguagem Go irá inteirar com cartões com as informações dos candidatos e inserindo na tela de usuário.
+
+Desta forma, a interface do usuário busca oferecer uma maneira intuitiva ao público comum uma aplicação que permite a pesquisa dos candidatos a vereadores, com inclusive utilizanod de inspiração o design de uma urna eletrêonica e tendo interações sonoras com o famoso som de uma urna eletrônica. No final é possível deixar o email para que o usuário possa receber novas notícias sobre os candidatos da sua cidade.
+ 
