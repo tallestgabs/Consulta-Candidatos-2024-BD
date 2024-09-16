@@ -179,12 +179,12 @@ CREATE TABLE IF NOT EXISTS candidato (
 
 CREATE TABLE IF NOT EXISTS telefone(
 	sq_candidato VARCHAR(20),
-	telefones TEXT,
+	telefones TEXT PRIMARY KEY,  -- Correção da Issue
 	FOREIGN KEY (sq_candidato) REFERENCES candidato(sq_candidato)
 );
 CREATE TABLE IF NOT EXISTS email(
 	sq_candidato VARCHAR(20),
-	emails TEXT,
+	emails TEXT PRIMARY KEY,
 	FOREIGN KEY (sq_candidato) REFERENCES candidato(sq_candidato)
 );
 CREATE TABLE IF NOT EXISTS ocupacao(
@@ -455,7 +455,7 @@ CREATE TABLE IF NOT EXISTS candidato (
 ```sql
 CREATE TABLE IF NOT EXISTS telefone(
 	sq_candidato VARCHAR(20),
-	telefones TEXT,
+	telefones TEXT PRIMARY KEY,
 	FOREIGN KEY (sq_candidato) REFERENCES candidato(sq_candidato)
 );
 ```
